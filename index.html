@@ -35,6 +35,7 @@
     <div class="login-actions">
       <button class="btn-gold" onclick="demoLogin('direccion')">Entrar como Dirección</button>
       <button class="btn-ghost-light" onclick="demoLogin('equipo')">Entrar como Equipo (app de Cati)</button>
+      <button class="btn-ghost-light" onclick="demoLogin('propietario')">Entrar como Propietario (Familia Jensen)</button>
     </div>
 
     <p class="login-note"><b>Demo interactiva</b> con datos de ejemplo · así funciona el portal real de <b>Hygge Services Mallorca</b></p>
@@ -86,7 +87,7 @@
           <div style="padding:14px 16px 4px"><b id="user-drop-nombre"></b><div class="hint" id="user-drop-rol"></div></div>
           <button class="menu-item" onclick="toggleDrop('#user-drop');demoSwap()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4 3.5 7.5 7 11M3.5 7.5H15M17 13l3.5 3.5L17 20M20.5 16.5H9"/></svg>
-            Cambiar de vista (Dirección ⇄ Equipo)</button>
+            Cambiar de vista (Dirección → Equipo → Propietario)</button>
           <button class="menu-item" id="menu-ajustes" onclick="toggleDrop('#user-drop');go('ajustes')">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 4v2.2M12 17.8V20M4 12h2.2M17.8 12H20M6.3 6.3l1.6 1.6M16.1 16.1l1.6 1.6M17.7 6.3l-1.6 1.6M7.9 16.1l-1.6 1.6"/></svg>
             Ajustes</button>

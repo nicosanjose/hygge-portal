@@ -50,14 +50,14 @@ function demoSeed() {
   };
 
   DB.owners = [
-    { id: 1, nombre: "Familia Jensen", pais: "Dinamarca", email: "jensen@ejemplo.dk", idioma: "da" },
-    { id: 2, nombre: "Sra. Larsen", pais: "Dinamarca", email: "larsen@ejemplo.dk", idioma: "da" },
-    { id: 3, nombre: "Familia Müller", pais: "Alemania", email: "mueller@ejemplo.de", idioma: "de" },
-    { id: 4, nombre: "Sr. Andersson", pais: "Suecia", email: "andersson@ejemplo.se", idioma: "sv" },
-    { id: 5, nombre: "Familia Schmidt", pais: "Alemania", email: "schmidt@ejemplo.de", idioma: "de" },
-    { id: 6, nombre: "Sr. y Sra. Nielsen", pais: "Dinamarca", email: "nielsen@ejemplo.dk", idioma: "da" },
-    { id: 7, nombre: "Sra. Fischer", pais: "Alemania", email: "fischer@ejemplo.de", idioma: "de" },
-    { id: 8, nombre: "Familia Berg", pais: "Noruega", email: "berg@ejemplo.no", idioma: "en" },
+    { id: 1, nombre: "Familia Jensen", pais: "Dinamarca", email: "jensen@ejemplo.dk", idioma: "da", codigo_acceso: null },
+    { id: 2, nombre: "Sra. Larsen", pais: "Dinamarca", email: "larsen@ejemplo.dk", idioma: "da", codigo_acceso: "ow2b41ce" },
+    { id: 3, nombre: "Familia Müller", pais: "Alemania", email: "mueller@ejemplo.de", idioma: "de", codigo_acceso: "ow93d1af" },
+    { id: 4, nombre: "Sr. Andersson", pais: "Suecia", email: "andersson@ejemplo.se", idioma: "sv", codigo_acceso: null },
+    { id: 5, nombre: "Familia Schmidt", pais: "Alemania", email: "schmidt@ejemplo.de", idioma: "de", codigo_acceso: "ow5cc0e2" },
+    { id: 6, nombre: "Sr. y Sra. Nielsen", pais: "Dinamarca", email: "nielsen@ejemplo.dk", idioma: "da", codigo_acceso: "ow71b9d4" },
+    { id: 7, nombre: "Sra. Fischer", pais: "Alemania", email: "fischer@ejemplo.de", idioma: "de", codigo_acceso: "owe28c55" },
+    { id: 8, nombre: "Familia Berg", pais: "Noruega", email: "berg@ejemplo.no", idioma: "en", codigo_acceso: "ow40a7f8" },
   ];
 
   const AV = "Alquiler vacacional", LI = "Limpieza", CO = "Consigna de llaves", PI = "Mantenimiento de piscina", JA = "Mantenimiento de jardín";
@@ -69,7 +69,7 @@ function demoSeed() {
     { id: 5, nombre: "Finca S'Alzina", zona: "Capdepera", tipo: "Finca con piscina", propietario_id: 5, licencia: "", habs: 5, banos: 4, plazas: 10, piscina: true, llave: "L-09", canales: [], servicios: [CO, PI, JA], foto_path: "assets/prop-boats.jpg", tarifa_gestion: 320, tarifa_limpieza: 0, dotacion_ropa: 0, activa: true, lat: 39.7027, lng: 3.4355 },
     { id: 6, nombre: "Villa Cala Mesquida", zona: "Cala Mesquida", tipo: "Villa con jardín", propietario_id: 6, licencia: "ETV/2088", habs: 4, banos: 3, plazas: 8, piscina: true, llave: "L-05", canales: ["Booking"], servicios: [AV, LI, PI, JA], foto_path: "assets/prop-cala.jpg", tarifa_gestion: 340, tarifa_limpieza: 65, dotacion_ropa: 10, activa: true, lat: 39.7477, lng: 3.4354 },
     { id: 7, nombre: "Apartament Es Pins", zona: "Cala Millor", tipo: "Apartamento", propietario_id: 7, licencia: "ETV/3305", habs: 2, banos: 1, plazas: 4, piscina: false, llave: "L-14", canales: ["Airbnb", "Booking"], servicios: [AV, LI], foto_path: "assets/prop-towels.jpg", tarifa_gestion: 220, tarifa_limpieza: 45, dotacion_ropa: 6, activa: true, lat: 39.5959, lng: 3.3830 },
-    { id: 8, nombre: "Casa Sa Duaia", zona: "Artà (Sa Duaia)", tipo: "Casa de campo", propietario_id: 8, licencia: "", habs: 3, banos: 2, plazas: 6, piscina: true, llave: "L-08", canales: [], servicios: [LI, JA], foto_path: "assets/prop-bedroom.jpg", tarifa_gestion: 180, tarifa_limpieza: 55, dotacion_ropa: 0, activa: true, lat: 39.7290, lng: 3.3830 },
+    { id: 8, nombre: "Casa Sa Duaia", zona: "Artà (Sa Duaia)", tipo: "Casa de campo", propietario_id: 1, licencia: "", habs: 3, banos: 2, plazas: 6, piscina: true, llave: "L-08", canales: [], servicios: [LI, JA], foto_path: "assets/prop-bedroom.jpg", tarifa_gestion: 180, tarifa_limpieza: 55, dotacion_ropa: 0, activa: true, lat: 39.7290, lng: 3.3830 },
   ];
 
   DB.emp = [
@@ -222,6 +222,23 @@ function demoSeed() {
     { id: 95, numero: "HSM-2026-005", cliente: "Familia Schmidt", propietario_id: 5, tipo: "Propietario", concepto: `Servicios ${mesPrev}`, lineas: [{ c: "Consigna y mantenimiento · Finca S'Alzina", importe: 320 }], base: 320, fecha: addDias(HOY_D, -12), vencimiento: addDias(HOY_D, 18), estado: "cobrada", created_at: ts(addDias(HOY_D, -12), "09:03") },
     { id: 96, numero: "HSM-2026-006", cliente: "Sra. Larsen", propietario_id: 2, tipo: "Propietario", concepto: `Servicios ${mesPrev}`, lineas: [{ c: "Gestión integral · Finca Na Blanca", importe: 290 }, { c: "4 limpiezas de salida", importe: 220 }], base: 510, fecha: addDias(HOY_D, -12), vencimiento: addDias(HOY_D, 18), estado: "emitida", created_at: ts(addDias(HOY_D, -12), "09:04") },
     { id: 97, numero: null, cliente: "Sra. Fischer", propietario_id: 7, tipo: "Propietario", concepto: `Servicios ${fmtMes(mesISO())}`, lineas: [{ c: "Gestión integral · Apartament Es Pins", importe: 220 }, { c: "5 limpiezas de salida", importe: 225 }], base: 445, fecha: HOY_D, vencimiento: null, estado: "borrador", created_at: ts(HOY_D, "09:00") },
+  ];
+
+  /* ---------- reseñas y mejoras (portal del propietario) ---------- */
+  DB.resenas = [
+    { id: nid(), propiedad_id: 1, autor: "Fam. Sørensen", canal: "Booking", puntuacion: 5, fecha: addDias(HOY_D, -4), texto: "La villa impecable y el equipo de limpieza un 10. La piscina, perfecta toda la semana.", created_at: ts(addDias(HOY_D, -4), "20:00") },
+    { id: nid(), propiedad_id: 1, autor: "Laura & Marc", canal: "Airbnb", puntuacion: 5, fecha: addDias(HOY_D, -18), texto: "Todo como en las fotos. Echamos de menos algo de sombra y colchonetas en la piscina.", created_at: ts(addDias(HOY_D, -18), "20:00") },
+    { id: nid(), propiedad_id: 1, autor: "Familie Weber", canal: "Airbnb", puntuacion: 4, fecha: addDias(HOY_D, -33), texto: "Muy buena estancia. Un gimnasio pequeño la haría perfecta para estancias largas.", created_at: ts(addDias(HOY_D, -33), "20:00") },
+    { id: nid(), propiedad_id: 8, autor: "M. Dubois", canal: "Directa", puntuacion: 5, fecha: addDias(HOY_D, -12), texto: "El jardín precioso y la casa muy auténtica. Volveremos.", created_at: ts(addDias(HOY_D, -12), "20:00") },
+    { id: nid(), propiedad_id: 4, autor: "K. Lindgren", canal: "Booking", puntuacion: 5, fecha: addDias(HOY_D, -9), texto: "Vistas increíbles al puerto y check-in facilísimo.", created_at: ts(addDias(HOY_D, -9), "20:00") },
+    { id: nid(), propiedad_id: 3, autor: "Fam. Novak", canal: "Vrbo", puntuacion: 4, fecha: addDias(HOY_D, -6), texto: "Ubicación perfecta junto a la playa. El wifi algo justo en la terraza.", created_at: ts(addDias(HOY_D, -6), "20:00") },
+  ];
+  DB.mejoras = [
+    { id: 201, propiedad_id: 1, titulo: "Colchonetas, sombrillas y toldo en la piscina", descripcion: "Lo han pedido 3 huéspedes este verano. Mejora directa de las reseñas y del precio en julio-agosto.", origen: "inquilino", autor: "Reseñas de Laura & Marc y 2 más", incremento_precio: 8, coste_estimado: 420, estado: "propuesta", created_at: ts(addDias(HOY_D, -10), "10:00") },
+    { id: 202, propiedad_id: 1, titulo: "Gimnasio básico en el garaje", descripcion: "Banco, mancuernas, cinta y espejo. Nos posiciona en 'workation' y estancias largas de temporada baja.", origen: "agencia", autor: "Equipo Hygge", incremento_precio: 15, coste_estimado: 2400, estado: "propuesta", created_at: ts(addDias(HOY_D, -7), "10:00") },
+    { id: 203, propiedad_id: 8, titulo: "Zona chill-out con pérgola en el jardín", descripcion: "El jardín es el punto fuerte de la casa: una pérgola con sofás lo convierte en el salón de verano.", origen: "agencia", autor: "Equipo Hygge", incremento_precio: 10, coste_estimado: 1800, estado: "propuesta", created_at: ts(addDias(HOY_D, -5), "10:00") },
+    { id: 204, propiedad_id: 1, titulo: "Barbacoa de obra y comedor exterior", descripcion: "Implementada en primavera.", origen: "inquilino", autor: "Petición repetida en 2025", incremento_precio: 6, coste_estimado: 900, estado: "implementada", implementada_at: addMeses(mesISO(), -2) + "-15", created_at: ts(addDias(HOY_D, -80), "10:00") },
+    { id: 205, propiedad_id: 1, titulo: "Wifi mesh en toda la casa y terraza", descripcion: "Aceptada por el propietario; instalación esta semana.", origen: "agencia", autor: "Equipo Hygge", incremento_precio: 3, coste_estimado: 260, estado: "aceptada", created_at: ts(addDias(HOY_D, -3), "10:00") },
   ];
 
   /* ---------- documentos de ejemplo ---------- */
@@ -403,6 +420,21 @@ async function dbJustificarAusencia(id, motivo, justFile) {
   return null;
 }
 async function dbBorrarAusencia(id) { DB.ausencias = DB.ausencias.filter(a => a.id !== id); return null; }
+async function dbCrearResena(payload) { DB.resenas.unshift({ id: nid(), created_at: new Date().toISOString(), ...payload }); return null; }
+async function dbBorrarResena(id) { DB.resenas = DB.resenas.filter(r => r.id !== id); return null; }
+async function dbGuardarMejora(payload, id) {
+  if (id) Object.assign(DB.mejoras.find(m => m.id === id), payload);
+  else DB.mejoras.unshift({ id: nid(), estado: "propuesta", created_at: new Date().toISOString(), ...payload });
+  return null;
+}
+async function dbEstadoMejora(id, estado) {
+  const m = DB.mejoras.find(x => x.id === id); if (!m) return "No encontrada";
+  m.estado = estado;
+  if (estado === "implementada") m.implementada_at = hoyISO();
+  return null;
+}
+async function dbBorrarMejora(id) { DB.mejoras = DB.mejoras.filter(m => m.id !== id); return null; }
+async function dbVincularProp(propId, ownerId) { const p = P(propId); if (p) p.propietario_id = ownerId; return null; }
 
 /* factura manual (app.js llama a DB.sb directamente en la versión real) */
 async function crearFacturaManual() {
@@ -418,11 +450,19 @@ async function crearFacturaManual() {
 async function demoLogin(rol) {
   DB.profile = rol === "direccion"
     ? { id: "demo-dir", nombre: "Dirección Hygge", rol: "direccion", empleado_id: null }
-    : { id: "demo-eq", nombre: "Cati Ginard", rol: "equipo", empleado_id: 1 };
+    : rol === "equipo"
+      ? { id: "demo-eq", nombre: "Cati Ginard", rol: "equipo", empleado_id: 1 }
+      : { id: "demo-ow", nombre: "Familia Jensen", rol: "propietario", propietario_id: 1 };
+  STATE.mejorasSel = new Set();
   await entrar();
   setTimeout(() => toast(
-    rol === "direccion" ? "Bienvenida, Dirección" : "Hola, Cati",
-    rol === "direccion" ? "Demo con datos de ejemplo: todo es interactivo." : "Tienes una limpieza en curso en el Àtic del Port.",
+    rol === "direccion" ? "Bienvenida, Dirección" : rol === "equipo" ? "Hola, Cati" : "Bienvenida, Familia Jensen",
+    rol === "direccion" ? "Demo con datos de ejemplo: todo es interactivo." :
+    rol === "equipo" ? "Tienes una limpieza en curso en el Àtic del Port." :
+    "Así ve el propietario su casa: reseñas, mejoras y liquidaciones.",
     ICON.check, "ok"), 700);
 }
-function demoSwap() { demoLogin(DB.profile?.rol === "direccion" ? "equipo" : "direccion"); }
+function demoSwap() {
+  const orden = { direccion: "equipo", equipo: "propietario", propietario: "direccion" };
+  demoLogin(orden[DB.profile?.rol] || "direccion");
+}
