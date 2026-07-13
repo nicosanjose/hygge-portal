@@ -102,20 +102,20 @@ function demoSeed() {
       const base = 2 + ((pid + m) % 5);
       const n1 = `${mes}-${String(base).padStart(2, "0")}`;
       const est = 4 + ((pid * m) % 4);
-      DB.reservas.push({ id: nid(), propiedad_id: pid, entrada: n1, salida: addDias(n1, est), canal: ["Airbnb", "Booking", "Vrbo"][i % 3], huesped: null, plazas: null, importe: 480 + est * 120 + pid * 30, estado: "confirmada", hora_entrada: "16:00", hora_salida: "10:00" });
+      DB.reservas.push({ id: nid(), propiedad_id: pid, entrada: n1, salida: addDias(n1, est), canal: ["Airbnb", "Booking", "Vrbo"][i % 3], huesped: null, plazas: null, importe: (950 + pid * 90 + (m % 3) * 60) * est, estado: "confirmada", hora_entrada: "16:00", hora_salida: "10:00" });
       const n2 = addDias(n1, est + 2 + (pid % 3));
-      if (n2.slice(0, 7) === mes) DB.reservas.push({ id: nid(), propiedad_id: pid, entrada: n2, salida: addDias(n2, 3 + (m % 4)), canal: "Airbnb", importe: 420 + pid * 40, estado: "confirmada", hora_entrada: "16:00", hora_salida: "10:00" });
+      if (n2.slice(0, 7) === mes) DB.reservas.push({ id: nid(), propiedad_id: pid, entrada: n2, salida: addDias(n2, 3 + (m % 4)), canal: "Airbnb", importe: (900 + pid * 80) * (3 + (m % 4)), estado: "confirmada", hora_entrada: "16:00", hora_salida: "10:00" });
     });
   }
   // hoy: salidas, entradas y ocupadas
   DB.reservas.push(
-    { id: nid(), propiedad_id: 4, entrada: addDias(HOY_D, -6), salida: HOY_D, canal: "Airbnb", huesped: "Fam. Weber", plazas: 4, importe: 890, estado: "confirmada", hora_entrada: "16:00", hora_salida: "10:00" },
-    { id: nid(), propiedad_id: 7, entrada: addDias(HOY_D, -4), salida: HOY_D, canal: "Booking", huesped: "M. Rossi", plazas: 3, importe: 560, estado: "confirmada", hora_entrada: "16:00", hora_salida: "11:00" },
-    { id: nid(), propiedad_id: 1, entrada: HOY_D, salida: addDias(HOY_D, 9), canal: "Booking", huesped: "Fam. Sørensen", plazas: 7, importe: 2350, estado: "confirmada", hora_entrada: "16:00", hora_salida: "10:00" },
-    { id: nid(), propiedad_id: 4, entrada: HOY_D, salida: addDias(HOY_D, 7), canal: "Airbnb", huesped: "L. Dubois", plazas: 4, importe: 1120, estado: "confirmada", hora_entrada: "15:00", hora_salida: "10:00" },
-    { id: nid(), propiedad_id: 3, entrada: addDias(HOY_D, -3), salida: addDias(HOY_D, 4), canal: "Vrbo", huesped: "Fam. Novak", plazas: 5, importe: 1240, estado: "confirmada", hora_entrada: "16:00", hora_salida: "10:00" },
-    { id: nid(), propiedad_id: 6, entrada: addDias(HOY_D, 2), salida: addDias(HOY_D, 9), canal: "Booking", huesped: "K. Lindgren", plazas: 6, importe: 1780, estado: "confirmada", hora_entrada: "16:00", hora_salida: "10:00" },
-    { id: nid(), propiedad_id: 2, entrada: addDias(HOY_D, -1), salida: addDias(HOY_D, 6), canal: "Airbnb", huesped: "Fam. Bauer", plazas: 5, importe: 1490, estado: "confirmada", hora_entrada: "16:00", hora_salida: "10:00" },
+    { id: nid(), propiedad_id: 4, entrada: addDias(HOY_D, -6), salida: HOY_D, canal: "Airbnb", huesped: "Fam. Weber", plazas: 4, importe: 7400, estado: "confirmada", hora_entrada: "16:00", hora_salida: "10:00" },
+    { id: nid(), propiedad_id: 7, entrada: addDias(HOY_D, -4), salida: HOY_D, canal: "Booking", huesped: "M. Rossi", plazas: 3, importe: 4900, estado: "confirmada", hora_entrada: "16:00", hora_salida: "11:00" },
+    { id: nid(), propiedad_id: 1, entrada: HOY_D, salida: addDias(HOY_D, 9), canal: "Booking", huesped: "Fam. Sørensen", plazas: 7, importe: 13500, estado: "confirmada", hora_entrada: "16:00", hora_salida: "10:00" },
+    { id: nid(), propiedad_id: 4, entrada: HOY_D, salida: addDias(HOY_D, 7), canal: "Airbnb", huesped: "L. Dubois", plazas: 4, importe: 8900, estado: "confirmada", hora_entrada: "15:00", hora_salida: "10:00" },
+    { id: nid(), propiedad_id: 3, entrada: addDias(HOY_D, -3), salida: addDias(HOY_D, 4), canal: "Vrbo", huesped: "Fam. Novak", plazas: 5, importe: 9800, estado: "confirmada", hora_entrada: "16:00", hora_salida: "10:00" },
+    { id: nid(), propiedad_id: 6, entrada: addDias(HOY_D, 2), salida: addDias(HOY_D, 9), canal: "Booking", huesped: "K. Lindgren", plazas: 6, importe: 11900, estado: "confirmada", hora_entrada: "16:00", hora_salida: "10:00" },
+    { id: nid(), propiedad_id: 2, entrada: addDias(HOY_D, -1), salida: addDias(HOY_D, 6), canal: "Airbnb", huesped: "Fam. Bauer", plazas: 5, importe: 10400, estado: "confirmada", hora_entrada: "16:00", hora_salida: "10:00" },
     { id: nid(), propiedad_id: 6, entrada: addDias(HOY_D, 14), salida: addDias(HOY_D, 18), canal: "Directa", huesped: "Propietarios", estado: "bloqueo" },
   );
 
@@ -227,18 +227,18 @@ function demoSeed() {
   /* ---------- reseñas y mejoras (portal del propietario) ---------- */
   DB.resenas = [
     { id: nid(), propiedad_id: 1, autor: "Fam. Sørensen", canal: "Booking", puntuacion: 5, fecha: addDias(HOY_D, -4), texto: "La villa impecable y el equipo de limpieza un 10. La piscina, perfecta toda la semana.", created_at: ts(addDias(HOY_D, -4), "20:00") },
-    { id: nid(), propiedad_id: 1, autor: "Laura & Marc", canal: "Airbnb", puntuacion: 5, fecha: addDias(HOY_D, -18), texto: "Todo como en las fotos. Echamos de menos algo de sombra y colchonetas en la piscina.", created_at: ts(addDias(HOY_D, -18), "20:00") },
-    { id: nid(), propiedad_id: 1, autor: "Familie Weber", canal: "Airbnb", puntuacion: 4, fecha: addDias(HOY_D, -33), texto: "Muy buena estancia. Un gimnasio pequeño la haría perfecta para estancias largas.", created_at: ts(addDias(HOY_D, -33), "20:00") },
+    { id: nid(), propiedad_id: 1, autor: "Laura & Marc", canal: "Airbnb", puntuacion: 5, fecha: addDias(HOY_D, -18), texto: "Todo como en las fotos. Echamos de menos una zona de sombra con hamacas en la piscina.", created_at: ts(addDias(HOY_D, -18), "20:00") },
+    { id: nid(), propiedad_id: 1, autor: "Familie Weber", canal: "Airbnb", puntuacion: 4, fecha: addDias(HOY_D, -33), texto: "Muy buena estancia. Con gimnasio sería perfecta para estancias largas: pagaríamos más sin dudarlo.", created_at: ts(addDias(HOY_D, -33), "20:00") },
     { id: nid(), propiedad_id: 8, autor: "M. Dubois", canal: "Directa", puntuacion: 5, fecha: addDias(HOY_D, -12), texto: "El jardín precioso y la casa muy auténtica. Volveremos.", created_at: ts(addDias(HOY_D, -12), "20:00") },
     { id: nid(), propiedad_id: 4, autor: "K. Lindgren", canal: "Booking", puntuacion: 5, fecha: addDias(HOY_D, -9), texto: "Vistas increíbles al puerto y check-in facilísimo.", created_at: ts(addDias(HOY_D, -9), "20:00") },
     { id: nid(), propiedad_id: 3, autor: "Fam. Novak", canal: "Vrbo", puntuacion: 4, fecha: addDias(HOY_D, -6), texto: "Ubicación perfecta junto a la playa. El wifi algo justo en la terraza.", created_at: ts(addDias(HOY_D, -6), "20:00") },
   ];
   DB.mejoras = [
-    { id: 201, propiedad_id: 1, titulo: "Colchonetas, sombrillas y toldo en la piscina", descripcion: "Lo han pedido 3 huéspedes este verano. Mejora directa de las reseñas y del precio en julio-agosto.", origen: "inquilino", autor: "Reseñas de Laura & Marc y 2 más", incremento_precio: 8, coste_estimado: 420, estado: "propuesta", created_at: ts(addDias(HOY_D, -10), "10:00") },
-    { id: 202, propiedad_id: 1, titulo: "Gimnasio básico en el garaje", descripcion: "Banco, mancuernas, cinta y espejo. Nos posiciona en 'workation' y estancias largas de temporada baja.", origen: "agencia", autor: "Equipo Hygge", incremento_precio: 15, coste_estimado: 2400, estado: "propuesta", created_at: ts(addDias(HOY_D, -7), "10:00") },
-    { id: 203, propiedad_id: 8, titulo: "Zona chill-out con pérgola en el jardín", descripcion: "El jardín es el punto fuerte de la casa: una pérgola con sofás lo convierte en el salón de verano.", origen: "agencia", autor: "Equipo Hygge", incremento_precio: 10, coste_estimado: 1800, estado: "propuesta", created_at: ts(addDias(HOY_D, -5), "10:00") },
-    { id: 204, propiedad_id: 1, titulo: "Barbacoa de obra y comedor exterior", descripcion: "Implementada en primavera.", origen: "inquilino", autor: "Petición repetida en 2025", incremento_precio: 6, coste_estimado: 900, estado: "implementada", implementada_at: addMeses(mesISO(), -2) + "-15", created_at: ts(addDias(HOY_D, -80), "10:00") },
-    { id: 205, propiedad_id: 1, titulo: "Wifi mesh en toda la casa y terraza", descripcion: "Aceptada por el propietario; instalación esta semana.", origen: "agencia", autor: "Equipo Hygge", incremento_precio: 3, coste_estimado: 260, estado: "aceptada", created_at: ts(addDias(HOY_D, -3), "10:00") },
+    { id: 201, propiedad_id: 1, titulo: "Zona lounge premium en la piscina: hamacas balinesas, colchonetas y toldo vela", descripcion: "Lo han pedido 3 huéspedes este verano. En villas comparables de la zona, el exterior premium marca la diferencia de tarifa en julio-agosto.", origen: "inquilino", autor: "Reseñas de Laura & Marc y 2 más", incremento_precio: 120, coste_estimado: 4500, estado: "propuesta", created_at: ts(addDias(HOY_D, -10), "10:00") },
+    { id: 202, propiedad_id: 1, titulo: "Gimnasio equipado con vistas al jardín", descripcion: "Rack, banco, mancuernas, cinta y espejo panorámico en el garaje. Posiciona la villa para estancias largas y clientes 'workation' de temporada baja.", origen: "agencia", autor: "Equipo Hygge", incremento_precio: 250, coste_estimado: 18000, estado: "propuesta", created_at: ts(addDias(HOY_D, -7), "10:00") },
+    { id: 203, propiedad_id: 8, titulo: "Pérgola bioclimática con zona chill-out en el jardín", descripcion: "El jardín es el punto fuerte de la casa: una pérgola con sofás y cocina exterior lo convierte en el salón de verano.", origen: "agencia", autor: "Equipo Hygge", incremento_precio: 150, coste_estimado: 9500, estado: "propuesta", created_at: ts(addDias(HOY_D, -5), "10:00") },
+    { id: 204, propiedad_id: 1, titulo: "Cocina exterior con barbacoa de obra y comedor para 10", descripcion: "Implementada en primavera.", origen: "inquilino", autor: "Petición repetida en 2025", incremento_precio: 90, coste_estimado: 6000, estado: "implementada", implementada_at: addMeses(mesISO(), -2) + "-15", created_at: ts(addDias(HOY_D, -80), "10:00") },
+    { id: 205, propiedad_id: 1, titulo: "Jacuzzi exterior con vistas", descripcion: "Aceptado por el propietario; instalación confirmada para este mes.", origen: "agencia", autor: "Equipo Hygge", incremento_precio: 180, coste_estimado: 12000, estado: "aceptada", created_at: ts(addDias(HOY_D, -3), "10:00") },
   ];
 
   /* ---------- documentos de ejemplo ---------- */
