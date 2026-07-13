@@ -119,6 +119,45 @@ function demoSeed() {
     { id: nid(), propiedad_id: 6, entrada: addDias(HOY_D, 14), salida: addDias(HOY_D, 18), canal: "Directa", huesped: "Propietarios", estado: "bloqueo" },
   );
 
+  /* ---------- CRM de clientes: agenda de huéspedes ---------- */
+  DB.clientes = [
+    { id: 1, nombre: "Fam. Sørensen", telefono: "+45 20 45 78 12", email: "soerensen@ejemplo.dk", idioma: "da", origen: "Booking", notas: "Repiten cada julio. Piden cuna y trona. Les encantó la piscina de Es Molí.", created_at: ts(addDias(HOY_D, -330), "10:00") },
+    { id: 2, nombre: "Fam. Weber", telefono: "+49 171 555 02 34", email: "weber.familie@ejemplo.de", idioma: "de", origen: "Airbnb", notas: "Viajan con perro pequeño. Interesados en estancias largas de temporada baja.", created_at: ts(addDias(HOY_D, -200), "10:00") },
+    { id: 3, nombre: "James & Emily Carter", telefono: "+44 7700 900 123", email: "carters@ejemplo.co.uk", idioma: "en", origen: "Directa", notas: "Celebraron su aniversario en Na Blanca. Preguntaron por Semana Santa.", created_at: ts(addDias(HOY_D, -340), "10:00") },
+    { id: 4, nombre: "K. Lindgren", telefono: "+46 70 123 45 67", email: "k.lindgren@ejemplo.se", idioma: "sv", origen: "Booking", notas: "Teletrabaja: valora buen wifi y escritorio.", created_at: ts(addDias(HOY_D, -60), "10:00") },
+    { id: 5, nombre: "L. Dubois", telefono: "+33 6 12 34 56 78", email: "l.dubois@ejemplo.fr", idioma: "fr", origen: "Airbnb", notas: null, created_at: ts(addDias(HOY_D, -20), "10:00") },
+    { id: 6, nombre: "Fam. Novak", telefono: "+420 601 234 567", email: null, idioma: "en", origen: "Vrbo", notas: "Dos niños pequeños; pidieron valla para la escalera.", created_at: ts(addDias(HOY_D, -15), "10:00") },
+    { id: 7, nombre: "M. Rossi", telefono: "+39 333 123 4567", email: "m.rossi@ejemplo.it", idioma: "es", origen: "Booking", notas: null, created_at: ts(addDias(HOY_D, -10), "10:00") },
+    { id: 8, nombre: "Fam. Bauer", telefono: null, email: "bauer@ejemplo.at", idioma: "de", origen: "Airbnb", notas: "Primera estancia; llegaron ayer a Na Blanca.", created_at: ts(addDias(HOY_D, -8), "10:00") },
+  ];
+  // estancias de hoy vinculadas a la agenda
+  const cliPorHuesped = { "Fam. Sørensen": 1, "Fam. Weber": 2, "K. Lindgren": 4, "L. Dubois": 5, "Fam. Novak": 6, "M. Rossi": 7, "Fam. Bauer": 8 };
+  DB.reservas.forEach(r => { if (r.huesped && cliPorHuesped[r.huesped]) r.cliente_id = cliPorHuesped[r.huesped]; });
+  // recurrencia: estancias pasadas de la historia generada
+  const asignaPasada = (cid, pid, mesesAtras) => {
+    const mes = addMeses(mesISO(), -mesesAtras);
+    const r = DB.reservas.find(x => !x.cliente_id && x.propiedad_id === pid && x.entrada.slice(0, 7) === mes);
+    if (r) { r.cliente_id = cid; r.huesped = DB.clientes.find(c => c.id === cid)?.nombre || r.huesped; }
+  };
+  asignaPasada(1, 1, 11);   // los Sørensen ya estuvieron el verano pasado
+  asignaPasada(2, 4, 6);    // los Weber repiten en el Àtic
+  asignaPasada(3, 2, 10);   // los Carter: dos estancias pasadas y sin contactar desde hace meses
+  asignaPasada(3, 2, 4);
+  // una reserva pasada con nombre y sin cliente → para enseñar "Vincular reserva"
+  const rSuelta = DB.reservas.find(x => !x.cliente_id && !x.huesped && x.estado === "confirmada" && x.entrada < HOY_D);
+  if (rSuelta) rSuelta.huesped = "T. Andersen";
+  DB.clienteContactos = [
+    { id: nid(), cliente_id: 1, via: "whatsapp", nota: "Confirmada la llegada de hoy y el código de la consigna", autor: "Dirección Hygge", fecha: ts(addDias(HOY_D, -1), "18:40") },
+    { id: nid(), cliente_id: 1, via: "email", nota: "Oferta de recibimiento con compra básica hecha", autor: "Dirección Hygge", fecha: ts(addDias(HOY_D, -9), "11:00") },
+    { id: nid(), cliente_id: 2, via: "email", nota: "Les pasamos disponibilidad de octubre para estancia larga", autor: "Dirección Hygge", fecha: ts(addDias(HOY_D, -41), "10:15") },
+    { id: nid(), cliente_id: 3, via: "whatsapp", nota: "Felicitación de Navidad y fechas de primavera", autor: "Dirección Hygge", fecha: ts(addDias(HOY_D, -140), "17:00") },
+    { id: nid(), cliente_id: 4, via: "whatsapp", nota: "Aviso de check-in anticipado disponible", autor: "Dirección Hygge", fecha: ts(HOY_D, "09:20") },
+    { id: nid(), cliente_id: 5, via: "email", nota: "Instrucciones de llegada y parking", autor: "Dirección Hygge", fecha: ts(addDias(HOY_D, -1), "12:30") },
+    { id: nid(), cliente_id: 6, via: "llamada", nota: "Instalada la valla de seguridad que pidieron", autor: "Dirección Hygge", fecha: ts(addDias(HOY_D, -2), "13:10") },
+    { id: nid(), cliente_id: 8, via: "email", nota: "Bienvenida y teléfono de guardia", autor: "Dirección Hygge", fecha: ts(addDias(HOY_D, -1), "19:00") },
+  ];
+  DB.clienteContactos.sort((a, b) => b.fecha.localeCompare(a.fecha));
+
   /* ---------- ausencias (caso Yolanda con patrón de lunes) ---------- */
   const lunes = ultimosLunes(6);
   DB.ausencias = [
@@ -435,6 +474,24 @@ async function dbEstadoMejora(id, estado) {
 }
 async function dbBorrarMejora(id) { DB.mejoras = DB.mejoras.filter(m => m.id !== id); return null; }
 async function dbVincularProp(propId, ownerId) { const p = P(propId); if (p) p.propietario_id = ownerId; return null; }
+async function dbGuardarCliente(payload, id) {
+  if (id) Object.assign(CL(id), payload);
+  else DB.clientes.push({ id: nid(), created_at: new Date().toISOString(), ...payload });
+  DB.clientes.sort((a, b) => a.nombre.localeCompare(b.nombre));
+  return null;
+}
+async function dbBorrarCliente(id) {
+  DB.clientes = DB.clientes.filter(c => c.id !== id);
+  DB.clienteContactos = DB.clienteContactos.filter(x => x.cliente_id !== id);
+  DB.reservas.forEach(r => { if (r.cliente_id === id) r.cliente_id = null; });
+  return null;
+}
+async function dbRegistrarContacto(clienteId, via, nota) {
+  DB.clienteContactos.unshift({ id: nid(), cliente_id: clienteId, via, nota: nota || null, autor: DB.profile?.nombre || null, fecha: new Date().toISOString() });
+  return null;
+}
+async function dbBorrarContacto(id) { DB.clienteContactos = DB.clienteContactos.filter(x => x.id !== id); return null; }
+async function dbVincularReservaCliente(reservaId, clienteId) { const r = DB.reservas.find(x => x.id === reservaId); if (r) r.cliente_id = clienteId; return null; }
 
 /* factura manual (app.js llama a DB.sb directamente en la versión real) */
 async function crearFacturaManual() {
