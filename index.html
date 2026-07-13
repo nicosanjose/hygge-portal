@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal de Gestión · Hygge Services Mallorca</title>
+<meta name="description" content="Portal de administración de Hygge Services Mallorca: propiedades, equipo en vivo, fichajes, incidencias, informes y facturación automática.">
+<link rel="icon" type="image/png" href="assets/logo-hygge.png">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div id="cursor-glow" aria-hidden="true"></div>
+
+<!-- ============ LOGIN ============ -->
+<div id="login">
+  <canvas id="login-canvas" aria-hidden="true"></canvas>
+  <div class="login-veil" aria-hidden="true"></div>
+  <div class="login-panel">
+    <img class="login-logo" src="assets/logo-blanco.png" alt="Hygge Services Mallorca">
+    <div class="login-eyebrow">Portal de gestión</div>
+    <h1 class="login-title">Cuidamos de tu casa.<br>Y de tu negocio.</h1>
+    <p class="login-sub">Propiedades · equipo · fichajes · facturación, en un solo sitio.</p>
+    <div class="login-field">
+      <label for="lg-email">Email</label>
+      <input id="lg-email" type="email" value="direccion@hyggeservicesmallorca.com" autocomplete="off">
+    </div>
+    <div class="login-field">
+      <label for="lg-pass">Contraseña</label>
+      <input id="lg-pass" type="password" value="••••••••••">
+    </div>
+    <div class="login-actions">
+      <button class="btn-gold" onclick="login('direccion')">Entrar como Dirección</button>
+      <button class="btn-ghost-light" onclick="login('equipo')">Entrar como Equipo (app de Cati)</button>
+    </div>
+    <p class="login-note"><b>Demo interactiva</b> preparada para Hygge Services Mallorca · datos de ejemplo</p>
+  </div>
+  <div class="login-brandline">Cada punto dorado es una propiedad bajo cuidado Hygge en el <span>Llevant de Mallorca</span> · mueve el ratón sobre la isla</div>
+</div>
+
+<!-- ============ APP ============ -->
+<div id="app">
+  <aside id="sidebar">
+    <div class="sb-brand">
+      <img src="assets/logo-blanco.png" alt="Hygge">
+      <div><div class="t">Hygge Services</div><div class="s">Portal Mallorca</div></div>
+    </div>
+    <nav class="sb-nav" id="sb-nav"></nav>
+    <div class="sb-foot"><button class="sb-user" id="sb-user"></button></div>
+  </aside>
+  <div id="overlay"></div>
+
+  <div id="main">
+    <header id="topbar">
+      <button id="hamb" aria-label="Menú">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <div>
+        <div class="tb-title" id="tb-title">Inicio</div>
+        <div class="tb-crumb" id="tb-crumb"></div>
+      </div>
+      <div class="tb-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6"/><path d="m15.5 15.5 4.5 4.5"/></svg>
+        <input placeholder="Buscar propiedad o persona…  " oninput="searchInput(this.value)" onfocus="searchInput(this.value)">
+        <div class="tb-results" id="tb-results"></div>
+      </div>
+      <span class="tb-clock" id="tb-clock"></span>
+      <div class="tb-menu">
+        <button class="tb-ico" onclick="toggleDrop('#notif-drop')" aria-label="Notificaciones">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16v-5a6 6 0 1 1 12 0v5l1.5 2.5H4.5Z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg>
+          <span class="dot"></span>
+        </button>
+        <div class="tb-drop" id="notif-drop">
+          <h4>Notificaciones</h4>
+          <div id="notif-list"></div>
+          <button class="all" onclick="toggleDrop('#notif-drop')">Marcar todas como leídas</button>
+        </div>
+      </div>
+      <div class="tb-menu">
+        <button class="tb-ico" onclick="toggleDrop('#user-drop')" aria-label="Usuario" style="background:var(--gold);border-color:var(--gold);color:#241d0c;font-weight:700;font-size:12px">HG</button>
+        <div class="tb-drop" id="user-drop" style="width:250px">
+          <button class="menu-item" onclick="switchRole()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4 3.5 7.5 7 11M3.5 7.5H15M17 13l3.5 3.5L17 20M20.5 16.5H9"/></svg>
+            Cambiar de vista (Dirección ⇄ Equipo)</button>
+          <button class="menu-item" onclick="toggleDrop('#user-drop');go('ajustes')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 4v2.2M12 17.8V20M4 12h2.2M17.8 12H20M6.3 6.3l1.6 1.6M16.1 16.1l1.6 1.6M17.7 6.3l-1.6 1.6M7.9 16.1l-1.6 1.6"/></svg>
+            Ajustes</button>
+          <button class="menu-item" onclick="logout()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4H6a1.5 1.5 0 0 0-1.5 1.5v13A1.5 1.5 0 0 0 6 20h8"/><path d="m16 8 4 4-4 4M20 12H9.5"/></svg>
+            Cerrar sesión</button>
+        </div>
+      </div>
+    </header>
+    <main id="content"></main>
+  </div>
+</div>
+
+<!-- drawer lateral (fichas) -->
+<div id="drawer-veil"></div>
+<aside id="drawer" aria-live="polite"></aside>
+
+<!-- modales y toasts -->
+<div id="modal-root"></div>
+<div id="toasts" aria-live="polite"></div>
+
+<script src="js/data.js"></script>
+<script src="js/views.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
