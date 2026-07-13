@@ -195,9 +195,6 @@ function viewDashboard() {
         <div class="alert-row"><span class="ic" style="background:var(--gold-soft);color:var(--gold-deep)">${ICON.invoice}</span>
           <div><b>Factura vencida · Restaurant Es Port</b><span>711,48 € · 10 días de retraso</span></div>
           <button class="btn xs outline go" data-go="facturacion">Ver</button></div>
-        <div class="alert-row"><span class="ic" style="background:var(--lilac-soft);color:var(--lilac)">${ICON.laundry}</span>
-          <div><b>Stock bajo · Hotel CR Suites</b><span>12 juegos de toallas en circulación</span></div>
-          <button class="btn xs outline go" data-go="lavanderia">Ver</button></div>
         <div class="alert-row"><span class="ic" style="background:var(--blue-soft);color:var(--blue)">${ICON.cal}</span>
           <div><b>4 check-ins esta tarde</b><span>Primero a las 15:00 · Àtic del Port</span></div>
           <button class="btn xs outline go" data-go="plan">Plan</button></div>
@@ -676,17 +673,18 @@ function drawerIncidencia(i) {
     <div class="photo-drop" style="margin-bottom:16px">${ICON.camera}2 fotos adjuntas por el equipo · toca para ampliar</div>
     <h4 style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:12px">Historial</h4>
     <div class="tl">${i.tl.map(t => `<div class="tl-item"><b>${esc(t.t)}</b><span>${t.h}</span></div>`).join("")}</div>
-    <div style="display:flex;gap:8px;margin-top:20px;flex-wrap:wrap">
-      ${!i.asignada && i.estado !== "resuelta" ? `<button class="btn sm sage" onclick="asignarInc('${i.id}')">${ICON.wrench} Asignar a Miquel</button>` : ""}
-      ${i.estado !== "resuelta" ? `<button class="btn sm primary" onclick="resolverInc('${i.id}')">${ICON.check} Marcar resuelta</button>` : `<span class="chip ok">Cerrada</span>`}
+    <div style="display:flex;gap:8px;margin-top:20px;flex-wrap:wrap;align-items:center">
+      ${i.estado !== "resuelta" ? `<button class="btn sm primary" onclick="resolverInc('${i.id}')">${ICON.check} Marcar resuelta</button>
+      <span class="hint">La asignación al técnico se gestiona fuera del portal.</span>` : `<span class="chip ok">Cerrada</span>`}
     </div>
   </div>`;
 }
 
 /* ============================================================
-   LAVANDERÍA
+   LAVANDERÍA (módulo retirado del panel a petición del cliente;
+   se conserva la función por si se reactiva)
    ============================================================ */
-function viewLavanderia() {
+function viewLavanderia_OFF() {
   const est = { pendiente: ["Pendiente", "line"], enproceso: ["En proceso", "blue"], listo: ["Listo para entrega", "ok"] };
   const cols = ["pendiente", "enproceso", "listo"];
   const colName = { pendiente: "Pendientes", enproceso: "En lavandería", listo: "Listos para salir" };
@@ -731,7 +729,7 @@ function viewLavanderia() {
     </div>
   </div>`;
 }
-function mountLavanderia() { drawBars("chart-kg", LAVANDERIA.kgMeses, { hi: 5 }); animateCounters(); }
+function mountLavanderia_OFF() { drawBars("chart-kg", LAVANDERIA.kgMeses, { hi: 5 }); animateCounters(); }
 
 /* ============================================================
    INFORMES
@@ -1094,6 +1092,7 @@ function viewMisHoras() {
     <div class="kpi"><div class="lab">${ICON.clock} Esta semana</div><div class="val">${e.horasSemana}<small>h</small></div><div class="sub">contrato: ${e.contrato} h/semana</div></div>
     <div class="kpi"><div class="lab">${ICON.cal} Julio (a día 13)</div><div class="val">${e.horasMes}<small>h</small></div><div class="sub">0 h extra</div></div>
     <div class="kpi"><div class="lab">${ICON.broom} Limpiezas julio</div><div class="val">${e.limpiezasMes}</div><div class="sub">★ ${e.valoracion} valoración media</div></div>
+    <div class="kpi"><div class="lab">${ICON.sun} Vacaciones</div><div class="val">${e.vacaciones}<small> días</small></div><div class="sub">disponibles este año · se gestionan con la oficina</div></div>
   </div>
   <div class="tbl-wrap"><table class="tbl">
     <thead><tr><th>Día</th><th>Entrada</th><th>Salida</th><th>Pausas</th><th class="num">Total</th></tr></thead>
@@ -1101,7 +1100,7 @@ function viewMisHoras() {
   </table></div>
   <p class="hint" style="margin-top:12px">Tus fichajes quedan guardados 4 años y puedes pedir corrección si un día se te olvidó fichar.</p>`;
 }
-function viewMisVacaciones() {
+function viewMisVacaciones_OFF() {
   const e = S(EMP_DEMO);
   return `
   <div class="kpis" style="margin-bottom:16px">
@@ -1146,14 +1145,12 @@ const VIEWS = {
   plan:         { t: "Planificación",    c: "Check-outs → limpiezas → check-ins", r: viewPlan,         m: () => {} },
   fichajes:     { t: "Fichajes",         c: "Registro de jornada del equipo",     r: viewFichajes,     m: () => animateCounters() },
   incidencias:  { t: "Incidencias",      c: "Averías y avisos del equipo",        r: viewIncidencias,  m: () => animateCounters() },
-  lavanderia:   { t: "Lavandería",       c: "Pedidos, rutas y renting de ropa",   r: viewLavanderia,   m: () => mountLavanderia() },
   informes:     { t: "Informes",         c: "Documentos mensuales automáticos",   r: viewInformes,     m: () => {} },
   facturacion:  { t: "Facturación",      c: "Facturas automáticas y cobros",      r: viewFacturacion,  m: () => animateCounters() },
   propietarios: { t: "Propietarios",     c: "Liquidaciones y portal del dueño",   r: viewPropietarios, m: () => {} },
   ajustes:      { t: "Ajustes",          c: "Empresa, integraciones y accesos",   r: viewAjustes,      m: () => {} },
   /* empleado */
   midia:        { t: "Mi día",           c: "Tareas, fichaje e incidencias",      r: viewMiDia,        m: () => mountMiDia() },
-  mishoras:     { t: "Mis horas",        c: "Fichajes y jornada",                 r: viewMisHoras,     m: () => animateCounters() },
-  vacaciones:   { t: "Vacaciones",       c: "Saldo y solicitudes",                r: viewMisVacaciones,m: () => animateCounters() },
+  mishoras:     { t: "Mis horas",        c: "Fichajes, jornada y vacaciones",     r: viewMisHoras,     m: () => animateCounters() },
   misincidencias:{ t: "Incidencias",     c: "Las que has reportado tú",           r: viewMisIncidencias,m: () => {} },
 };

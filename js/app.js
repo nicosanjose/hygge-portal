@@ -22,11 +22,11 @@ const $$ = s => [...document.querySelectorAll(s)];
 const NAV = {
   direccion: [
     ["Operativa", [["dashboard", "Inicio", "home"], ["plan", "Planificación", "cal"], ["equipo", "Equipo en vivo", "pin"], ["fichajes", "Fichajes", "clock"], ["incidencias", "Incidencias", "alert"]]],
-    ["Negocio", [["propiedades", "Propiedades", "house"], ["lavanderia", "Lavandería", "laundry"], ["propietarios", "Propietarios", "users"]]],
+    ["Negocio", [["propiedades", "Propiedades", "house"], ["propietarios", "Propietarios", "users"]]],
     ["Administración", [["informes", "Informes", "doc"], ["facturacion", "Facturación", "invoice"], ["ajustes", "Ajustes", "settings"]]],
   ],
   equipo: [
-    ["Mi trabajo", [["midia", "Mi día", "sun"], ["mishoras", "Mis horas", "clock"], ["vacaciones", "Vacaciones", "cal"], ["misincidencias", "Incidencias", "alert"]]],
+    ["Mi trabajo", [["midia", "Mi día", "sun"], ["mishoras", "Mis horas", "clock"], ["misincidencias", "Incidencias", "alert"]]],
   ],
 };
 
@@ -396,12 +396,6 @@ function doGenFacturas(btn) {
   }, 420);
 }
 
-function asignarInc(id) {
-  const i = INCIDENCIAS.find(x => x.id === id);
-  i.asignada = "miquel"; i.estado = "encurso";
-  i.tl.push({ h: simTime(), t: "Asignada a Miquel Alzamora desde el portal" });
-  toast("Asignada a Miquel", i.titulo, ICON.wrench); closeDrawer(); rerender();
-}
 function resolverInc(id) {
   const i = INCIDENCIAS.find(x => x.id === id);
   i.estado = "resuelta"; i.tl.push({ h: simTime(), t: "Marcada como resuelta desde el portal" });
@@ -469,19 +463,6 @@ function doReasignar(tid) {
   closeModal();
   toast("Equipo actualizado", P(t.propId).nombre + " · " + sel.map(id => S(id).nombre.split(" ")[0]).join(", "), ICON.users, "ok");
   rerender();
-}
-
-/* ---------- lavandería ---------- */
-function avanzaPedido(id) {
-  const p = LAVANDERIA.pedidos.find(x => x.id === id);
-  p.estado = p.estado === "pendiente" ? "enproceso" : "listo";
-  toast(p.estado === "enproceso" ? "Pedido en lavandería" : "Pedido listo para entrega", p.cliente + " · " + p.kg + " kg", ICON.laundry); rerender();
-}
-function entregaPedido(id) {
-  const idx = LAVANDERIA.pedidos.findIndex(x => x.id === id);
-  const p = LAVANDERIA.pedidos[idx];
-  LAVANDERIA.pedidos.splice(idx, 1);
-  toast("Entregado ✓", p.cliente + " · " + p.kg + " kg · pasa a la factura del mes", ICON.check, "ok"); rerender();
 }
 
 /* ---------- fichajes CSV ---------- */
@@ -565,14 +546,6 @@ function finalizarLimpieza(tid) {
   renderNotifs();
   toast("¡Limpieza terminada! ✨", p.nombre + " lista para el check-in de las 16:00.", ICON.check, "ok");
   rerender();
-}
-function pedirVacaciones() {
-  const d = $("#vac-desde").value, h = $("#vac-hasta").value;
-  const fmt = s => new Date(s + "T12:00").toLocaleDateString("es-ES", { day: "numeric", month: "short" });
-  $("#vac-list").insertAdjacentHTML("afterbegin",
-    `<div class="set-row"><div class="tx"><b>${fmt(d)} – ${fmt(h)} 2026</b><span>solicitud nueva</span></div>
-     <div class="end"><span class="chip gold"><i class="d"></i>Pendiente</span></div></div>`);
-  toast("Solicitud enviada", "Dirección la verá en el portal y te llegará la respuesta aquí.", ICON.send, "ok");
 }
 function addChecklistStep() {
   const inp = $("#chk-new"); const v = inp.value.trim(); if (!v) return;
