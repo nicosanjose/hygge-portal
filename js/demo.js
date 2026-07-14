@@ -73,7 +73,7 @@ function demoSeed() {
   ];
 
   DB.emp = [
-    { id: 1, nombre: "Cati Ginard", rol_laboral: "Limpieza", color: "#4f8a5c", telefono: "+34 655 210 334", contrato_horas: 40, activo: true, codigo_acceso: null },
+    { id: 1, nombre: "Karen Ginard", rol_laboral: "Limpieza", color: "#4f8a5c", telefono: "+34 655 210 334", contrato_horas: 40, activo: true, codigo_acceso: null },
     { id: 2, nombre: "Ionela Popescu", rol_laboral: "Limpieza", color: "#4f8a5c", telefono: "+34 655 442 118", contrato_horas: 40, activo: true, codigo_acceso: null },
     { id: 3, nombre: "Antònia Sureda", rol_laboral: "Limpieza", color: "#84759f", telefono: "+34 655 873 902", contrato_horas: 40, activo: true, codigo_acceso: null },
     { id: 4, nombre: "Yolanda Ruiz", rol_laboral: "Limpieza", color: "#c79c3d", telefono: "+34 655 118 476", contrato_horas: 35, activo: true, codigo_acceso: null },
@@ -83,7 +83,7 @@ function demoSeed() {
     { id: 8, nombre: "Marta Riera", rol_laboral: "Limpieza", color: "#84759f", telefono: "+34 655 990 811", contrato_horas: 35, activo: true, codigo_acceso: "7fd3a2c1" },
   ];
   DB.empDatos = [
-    { empleado_id: 1, tipo_relacion: "contrato", tarifa_hora: 14, dni: "43•••••1A", nass: "07/••••••••90", email: "cati@ejemplo.com", direccion: "Artà", iban: "ES12 •••• (muestra)", fecha_alta: "2024-03-01" },
+    { empleado_id: 1, tipo_relacion: "contrato", tarifa_hora: 14, dni: "43•••••1A", nass: "07/••••••••90", email: "karen@ejemplo.com", direccion: "Artà", iban: "ES12 •••• (muestra)", fecha_alta: "2024-03-01" },
     { empleado_id: 2, tipo_relacion: "contrato", tarifa_hora: 14, dni: "X9•••••2B", fecha_alta: "2024-05-15" },
     { empleado_id: 3, tipo_relacion: "contrato", tarifa_hora: 14.5, dni: "43•••••3C", fecha_alta: "2023-04-01" },
     { empleado_id: 4, tipo_relacion: "contrato", tarifa_hora: 14, dni: "43•••••4D", fecha_alta: "2025-06-01" },
@@ -220,7 +220,7 @@ function demoSeed() {
   DB.pausas.push({ id: nid(), fichaje_id: 607, inicio: ts(HOY_D, "10:30"), fin: null }); // Xisca en descanso
 
   DB.posiciones = [
-    { empleado_id: 1, lat: 39.7135, lng: 3.4622, updated_at: new Date().toISOString() },  // Cati en Àtic del Port
+    { empleado_id: 1, lat: 39.7135, lng: 3.4622, updated_at: new Date().toISOString() },  // Karen en Àtic del Port
     { empleado_id: 2, lat: 39.6989, lng: 3.3702, updated_at: new Date().toISOString() },  // Ionela en Es Molí
     { empleado_id: 3, lat: 39.6989, lng: 3.3702, updated_at: new Date().toISOString() },
     { empleado_id: 6, lat: 39.7477, lng: 3.4354, updated_at: new Date().toISOString() },  // Toni en Cala Mesquida
@@ -238,7 +238,7 @@ function demoSeed() {
   DB.eventos = [
     { id: nid(), incidencia_id: 71, texto: "Reportada por Antònia Sureda con 2 fotos", autor: "Antònia Sureda", created_at: ts(HOY_D, "08:25") },
     { id: nid(), incidencia_id: 71, texto: "Avisado el fontanero: viene mañana a primera hora", autor: "Dirección", created_at: ts(HOY_D, "09:10") },
-    { id: nid(), incidencia_id: 72, texto: "Reportada por Cati Ginard con 1 foto", autor: "Cati Ginard", created_at: ts(addDias(HOY_D, -1), "17:10") },
+    { id: nid(), incidencia_id: 72, texto: "Reportada por Karen Ginard con 1 foto", autor: "Karen Ginard", created_at: ts(addDias(HOY_D, -1), "17:10") },
     { id: nid(), incidencia_id: 73, texto: "Reportada por Toni Massanet", autor: "Toni Massanet", created_at: ts(addDias(HOY_D, -4), "09:00") },
     { id: nid(), incidencia_id: 73, texto: "Reparada la turbina en taller · verificada en la piscina", autor: "Toni Massanet", created_at: ts(addDias(HOY_D, -3), "13:00") },
     { id: nid(), incidencia_id: 74, texto: "Sustituido el receptor de la unidad interior", autor: "Miquel Alzamora", created_at: ts(addDias(HOY_D, -7), "16:00") },
@@ -246,9 +246,9 @@ function demoSeed() {
 
   DB.compras = [
     { id: 81, propiedad_id: 1, texto: "2 bombillas E27 cálidas (terraza)", creado_por: "Ionela Popescu", estado: "pendiente", created_at: ts(HOY_D, "12:20") },
-    { id: 82, propiedad_id: 4, texto: "Gel y champú del kit de bienvenida", creado_por: "Cati Ginard", estado: "pendiente", created_at: ts(HOY_D, "11:05") },
+    { id: 82, propiedad_id: 4, texto: "Gel y champú del kit de bienvenida", creado_por: "Karen Ginard", estado: "pendiente", created_at: ts(HOY_D, "11:05") },
     { id: 83, propiedad_id: 3, texto: "Cinta de persiana (dormitorio 2)", creado_por: "Dirección", estado: "pendiente", created_at: ts(addDias(HOY_D, -1), "17:30") },
-    { id: 84, propiedad_id: 1, texto: "Juego de sábanas 150 de repuesto", creado_por: "Cati Ginard", estado: "comprado", created_at: ts(addDias(HOY_D, -3), "10:00"), comprado_at: ts(addDias(HOY_D, -2), "18:00") },
+    { id: 84, propiedad_id: 1, texto: "Juego de sábanas 150 de repuesto", creado_por: "Karen Ginard", estado: "comprado", created_at: ts(addDias(HOY_D, -3), "10:00"), comprado_at: ts(addDias(HOY_D, -2), "18:00") },
   ];
 
   /* ---------- facturas ---------- */
@@ -506,14 +506,14 @@ async function crearFacturaManual() {
    ============================================================ */
 async function demoLogin(rol) {
   DB.profile = rol === "direccion"
-    ? { id: "demo-dir", nombre: "Dirección Hygge", rol: "direccion", empleado_id: null }
+    ? { id: "demo-dir", nombre: "Laura", rol: "direccion", empleado_id: null }
     : rol === "equipo"
-      ? { id: "demo-eq", nombre: "Cati Ginard", rol: "equipo", empleado_id: 1 }
+      ? { id: "demo-eq", nombre: "Karen Ginard", rol: "equipo", empleado_id: 1 }
       : { id: "demo-ow", nombre: "Familia Jensen", rol: "propietario", propietario_id: 1 };
   STATE.mejorasSel = new Set();
   await entrar();
   setTimeout(() => toast(
-    rol === "direccion" ? "Bienvenida, Dirección" : rol === "equipo" ? "Hola, Cati" : "Bienvenida, Familia Jensen",
+    rol === "direccion" ? "Bienvenida, Laura" : rol === "equipo" ? "Hola, Karen" : "Bienvenida, Familia Jensen",
     rol === "direccion" ? "Demo con datos de ejemplo: todo es interactivo." :
     rol === "equipo" ? "Tienes una limpieza en curso en el Àtic del Port." :
     "Así ve el propietario su casa: reseñas, mejoras y liquidaciones.",
