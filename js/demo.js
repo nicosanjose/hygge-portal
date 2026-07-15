@@ -280,12 +280,22 @@ function demoSeed() {
     { id: 205, propiedad_id: 1, titulo: "Jacuzzi exterior con vistas", descripcion: "Aceptado por el propietario; instalación confirmada para este mes.", origen: "agencia", autor: "Equipo Hygge", incremento_precio: 180, coste_estimado: 12000, estado: "aceptada", created_at: ts(addDias(HOY_D, -3), "10:00") },
   ];
 
+  /* ---------- lavandería: estado de la ropa por propiedad ---------- */
+  DB.lavanderia = [
+    { propiedad_id: 1, estado: "proceso", updated_at: ts(HOY_D, "09:40"), updated_by: "Bugaderia del Llevant" },
+    { propiedad_id: 4, estado: "lista", updated_at: ts(HOY_D, "11:15"), updated_by: "Bugaderia del Llevant" },
+    { propiedad_id: 2, estado: "enviada", updated_at: ts(addDias(HOY_D, -1), "17:20"), updated_by: "Karen Ginard" },
+    { propiedad_id: 6, estado: "vacio", updated_at: ts(addDias(HOY_D, -2), "12:00"), updated_by: "Bugaderia del Llevant" },
+  ];
+  DB.lavAcceso = { unico: true, nombre: "Bugaderia del Llevant", codigo_acceso: "lv7c31f4" };
+
   /* ---------- documentos de ejemplo ---------- */
   DB._docs = {
     "documentos/1": [{ name: "1_Contrato_gestion_2026.pdf", metadata: { size: 245760 } }, { name: "2_Licencia_ETV2314.pdf", metadata: { size: 122880 } }],
     "documentos/4": [{ name: "1_Contrato_gestion_2026.pdf", metadata: { size: 198450 } }],
     "empleados/1": [{ name: "1_Contrato_indefinido_firmado.pdf", metadata: { size: 331000 } }, { name: "2_DNI.pdf", metadata: { size: 89000 } }],
     "empleados/5": [{ name: "1_Contrato_servicios_autonomo.pdf", metadata: { size: 287000 } }],
+    "incidencias-docs/71": [{ name: "1_Presupuesto_fontanero.pdf", metadata: { size: 154200 } }, { name: "2_Contrato_autonomo_reparacion.pdf", metadata: { size: 268900 } }],
   };
   Object.entries(DB._docs).forEach(([pre, docs]) => docs.forEach(d => { DB.fotoUrls[pre + "/" + d.name] = "assets/sv-gestion.jpg"; }));
 }
@@ -492,6 +502,13 @@ async function dbRegistrarContacto(clienteId, via, nota) {
 }
 async function dbBorrarContacto(id) { DB.clienteContactos = DB.clienteContactos.filter(x => x.id !== id); return null; }
 async function dbVincularReservaCliente(reservaId, clienteId) { const r = DB.reservas.find(x => x.id === reservaId); if (r) r.cliente_id = clienteId; return null; }
+async function dbSetRopa(propId, estado) {
+  const l = DB.lavanderia.find(x => x.propiedad_id === propId);
+  const upd = { estado, updated_at: new Date().toISOString(), updated_by: DB.profile?.nombre || null };
+  if (l) Object.assign(l, upd); else DB.lavanderia.push({ propiedad_id: propId, ...upd });
+  return null;
+}
+async function dbRegenCodigoLav() { DB.lavAcceso.codigo_acceso = "lv" + Math.random().toString(16).slice(2, 8); return null; }
 
 /* factura manual (app.js llama a DB.sb directamente en la versión real) */
 async function crearFacturaManual() {
@@ -509,17 +526,20 @@ async function demoLogin(rol) {
     ? { id: "demo-dir", nombre: "Laura", rol: "direccion", empleado_id: null }
     : rol === "equipo"
       ? { id: "demo-eq", nombre: "Karen Ginard", rol: "equipo", empleado_id: 1 }
-      : { id: "demo-ow", nombre: "Familia Jensen", rol: "propietario", propietario_id: 1 };
+      : rol === "lavanderia"
+        ? { id: "demo-lav", nombre: "Bugaderia del Llevant", rol: "lavanderia" }
+        : { id: "demo-ow", nombre: "Familia Jensen", rol: "propietario", propietario_id: 1 };
   STATE.mejorasSel = new Set();
   await entrar();
   setTimeout(() => toast(
-    rol === "direccion" ? "Bienvenida, Laura" : rol === "equipo" ? "Hola, Karen" : "Bienvenida, Familia Jensen",
+    rol === "direccion" ? "Bienvenida, Laura" : rol === "equipo" ? "Hola, Karen" : rol === "lavanderia" ? "Hola, Bugaderia del Llevant" : "Bienvenida, Familia Jensen",
     rol === "direccion" ? "Demo con datos de ejemplo: todo es interactivo." :
     rol === "equipo" ? "Tienes una limpieza en curso en el Àtic del Port." :
+    rol === "lavanderia" ? "Marca el estado de la ropa: la oficina y el equipo lo ven al momento." :
     "Así ve el propietario su casa: reseñas, mejoras y liquidaciones.",
     ICON.check, "ok"), 700);
 }
 function demoSwap() {
-  const orden = { direccion: "equipo", equipo: "propietario", propietario: "direccion" };
+  const orden = { direccion: "equipo", equipo: "propietario", propietario: "lavanderia", lavanderia: "direccion" };
   demoLogin(orden[DB.profile?.rol] || "direccion");
 }
