@@ -197,6 +197,28 @@ function demoSeed() {
     { id: 506, propiedad_id: 5, fecha: addDias(HOY_D, 1), tipo: "piscina", estado: "pendiente", equipo_ids: [6], hora_inicio: "09:00", hora_fin: "10:00", checklist: [], fotos: [], descripcion: "Mantenimiento semanal" },
   );
 
+  /* ---------- horario futuro: 3 semanas planificadas (cuadrante) ---------- */
+  const chkVacia = () => (DB.ajustes.checklist_base || []).map(t => ({ t, ok: false }));
+  const patron = [   // [empleados, propiedad, tipo, hora inicio, horas]
+    [[1, 2], 1, "limpieza", 9, 3], [[3], 4, "limpieza", 10, 2], [[4], 7, "limpieza", 10, 2],
+    [[6], 6, "piscina", 8, 1], [[5], 3, "mantenimiento", 11, 2], [[2], 2, "limpieza", 12, 2],
+    [[3, 4], 6, "limpieza", 14, 3], [[6], 1, "piscina", 15, 1], [[8], 8, "limpieza", 9, 3],
+  ];
+  for (let d = 2; d <= 21; d++) {
+    const dia = addDias(HOY_D, d);
+    const dow = new Date(dia + "T12:00").getDay();
+    if (dow === 0) continue;                                     // domingos libres
+    const nDia = dow === 6 ? 3 : 5 + (d % 3);                    // sábados más suaves
+    for (let k = 0; k < nDia; k++) {
+      const [eq, pid, tipo, h0, dur] = patron[(d * 2 + k) % patron.length];
+      const eqReal = dow === 6 && k > 0 ? [] : eq;               // algún hueco "sin asignar" los sábados
+      DB.tareas.push({ id: nid(), propiedad_id: pid, fecha: dia, tipo, estado: "pendiente",
+        equipo_ids: eqReal, hora_inicio: `${String(h0 + (k % 2)).padStart(2, "0")}:00`, hora_fin: `${String(h0 + (k % 2) + dur).padStart(2, "0")}:00`,
+        checklist: tipo === "limpieza" ? chkVacia() : [], fotos: [],
+        descripcion: tipo === "limpieza" && k === 0 ? "Cambio de huéspedes" : null });
+    }
+  }
+
   /* ---------- fichajes: mes completo + hoy ---------- */
   DB.fichajes = []; DB.pausas = [];
   for (let d = 28; d >= 1; d--) {
